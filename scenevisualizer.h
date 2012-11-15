@@ -43,6 +43,7 @@ private:
 
     vtkSmartPointer<vtkTransform> STLModelTransform;
     vtkSmartPointer<vtkActor> STLActor;
+
 };
 
 #endif // SCENEVISUALIZER_H

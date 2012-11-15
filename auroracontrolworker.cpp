@@ -11,21 +11,22 @@ void AuroraControlWorker::process()  {
     QByteArray rep;
     QList<PortHandle> port_handles;
     int nHandles;
-    /*
-    port = openPort("/dev/ttyUSB0");
+    char cmd[256];
 
+    port = openPort("/dev/ttyUSB0");
     sleep(1);
+
     writeCommand(port, "TSTOP \r");
     rep = readCommand(port);
     printCmd(rep);
 
-    writeCommand(port, "PHF OA\r");
+   /* writeCommand(port, "PHF OA\r");
     rep = readCommand(port);
     printCmd(rep);
 
     writeCommand(port, "PHF 0B\r");
     rep = readCommand(port);
-    printCmd(rep);
+    printCmd(rep);*/
 
     writeCommand(port, "INIT \r");
     sleep(1);
@@ -38,21 +39,22 @@ void AuroraControlWorker::process()  {
     ParsePHSR(rep, nHandles, port_handles);
 
     //Init all ports
-    writeCommand(port, "PINIT 0A\r");
-    rep = readCommand(port);
-    printCmd(rep);
-    writeCommand(port, "PINIT 0B\r");
-    rep = readCommand(port);
-    printCmd(rep);
+    for (int i = 0; i < nHandles; i++)  {
+        sprintf(cmd, "PINIT %c%c\r", port_handles.at(i).HandleHexCharString[0],
+                port_handles.at(i).HandleHexCharString[1]);
+        writeCommand(port, cmd);
+        rep = readCommand(port);
+        printCmd(rep);
+    }
 
     //Enable handles
-    writeCommand(port, "PENA 0AD\r");
-    rep = readCommand(port);
-    printCmd(rep);
-    writeCommand(port, "PENA 0BD\r");
-    rep = readCommand(port);
-    printCmd(rep);
-
+    for (int i = 0; i < nHandles; i++)  {
+        sprintf(cmd, "PENA %c%c\r", port_handles.at(i).HandleHexCharString[0],
+                port_handles.at(i).HandleHexCharString[1]);
+        writeCommand(port, cmd);
+        rep = readCommand(port);
+        printCmd(rep);
+    }
 
     //GO TRACK
     writeCommand(port, "TSTART \r");

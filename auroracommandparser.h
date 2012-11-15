@@ -80,4 +80,6 @@ int ParsePHSR(const QByteArray& cmd, int &nHandles, QList<PortHandle> &handles);
 int ParseBX(const QByteArray& cmd, int &nHandles, QList<HandleReply> &handles,
             SystemStatus &system_status);
 
+void printCmd(QByteArray data);
+
 #endif // AURORACOMMANDPARSER_H

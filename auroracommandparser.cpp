@@ -41,6 +41,7 @@ int ParseBX(const QByteArray& cmd, int &nHandles,
             QList<HandleReply> &handle_replys, SystemStatus &system_status)  {
         const uint offsetB = 7;
         const uint handleB = 42;
+        uint status;
 
         nHandles = (int)cmd[6];
 
@@ -66,6 +67,18 @@ int ParseBX(const QByteArray& cmd, int &nHandles,
             hreply.IndicatorValue = Slice4FloatFormQBytes(cmd, offsetB + handleB * i + 2 + 28);
             hreply.PortStatus = Slice4UintFormQBytes(cmd, offsetB + handleB * i + 2 + 32);
             hreply.FrameNumber = Slice4UintFormQBytes(cmd, offsetB + handleB * i + 2 + 36);
+
+            status = hreply.PortStatus;
+            hreply.Occupied =      status & 0x001;
+            hreply.GPIO_1_closed = status & 0x002;
+            hreply.GPIO_2_closed = status & 0x004;
+            hreply.GPIO_3_closed = status & 0x008;
+            hreply.Initialized =   status & 0x010;
+            hreply.Enabled =       status & 0x020;
+            hreply.OutOfVolume =   status & 0x040;
+            hreply.PartitiallyOutOfVolume =   status & 0x080;
+            hreply.SensorCoilBroken =         status & 0x100;
+            hreply.ProcessingException =      status & 0x200;
 
             handle_replys.append(hreply);
         }
@@ -111,4 +124,15 @@ QByteArray sliceByteArray(const QByteArray& a, int iL, int iR, bool addZ) {// = 
     for (int i = iL,  j = 0; i < iR + 1; ++i, ++j)
         slice[j] = a[i];
     return slice;
+}
+
+
+void printCmd(QByteArray data)  {
+    std::cerr<<"\n<<";
+    for (int i = 0; i < data.length(); ++i) {
+        if (data[i]=='\r') std::cerr<<"+CR";
+        else std::cerr<<data[i];
+        //std::cerr<<"("<<int(data[i])<<")";
+    }
+    std::cerr<<"\n";
 }

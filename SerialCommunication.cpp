@@ -83,7 +83,7 @@ QByteArray readCommand(QextSerialPort* port)  {
                 }
         }
     }
-    fprintf(f_usb_comm_log, "<<%s\n", cmd.data()); //LOG
+    //fprintf(f_usb_comm_log, "<<%s\n", cmd.data()); //LOG
     return cmd;
 }
 
@@ -133,8 +133,8 @@ void writeCommand(QextSerialPort* port, char *cmd)  {
     pr[slen - 1] = '\0';
     //std::cerr<<">>"<<cmd<<std::flush;
     ret = port->write(cmd, strlen(cmd));
-    fprintf(f_usb_comm_log, ">>%s<CR>\n", pr); //LOG
-    fflush(f_usb_comm_log); //LOG
+    //fprintf(f_usb_comm_log, ">>%s<CR>\n", pr); //LOG
+    //fflush(f_usb_comm_log); //LOG
 }
 
 

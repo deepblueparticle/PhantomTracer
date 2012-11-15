@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'auroracontrolworker.h'
 **
-** Created: Fri Nov 9 14:27:42 2012
+** Created: Wed Nov 14 17:34:20 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.3)
 **
 ** WARNING! All changes made in this file will be lost!
